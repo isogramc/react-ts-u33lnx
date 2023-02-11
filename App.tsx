@@ -30,7 +30,7 @@ export default function App() {
     {
       name: 'Ted Brun',
       email: 'ted.fox@example.com',
-      currency: 'pound',
+      currency: 'euro',
       country: 'europe',
       image:
         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -38,15 +38,11 @@ export default function App() {
   ];
 
   const [isOpen, setOpen] = React.useState<boolean>(false);
-  const [isCurrencySearch, setCurrencySearch] = React.useState<boolean>(false);
   const [isCountrySearch, setCountrySearch] = React.useState<boolean>(false);
   const [isLoading, setLoading] = React.useState<boolean>(false);
   const [countries, setCountries] = React.useState([]);
-  const [selectedCountry, setSelectedCountry] = React.useState<string>('');
-  const [countriesByCountry, setCountriesByCountry] = React.useState(
-    []
-  );
-  const [currency, setCurrency] = React.useState<string>('');
+  const [selectedRegion, setSelectedRegion] = React.useState<string>('');
+  const [countriesByCountry, setCountriesByCountry] = React.useState([]);
   const [option, setOption] = React.useState(undefined);
   React.useEffect(() => {
     checkIfLoading();
@@ -73,9 +69,9 @@ export default function App() {
   };
 
   const modifySearchCriteria = () => {
-    //find all countries by currency
+    //find all countries by region
     setCountrySearch(true);
-    const endpoint = 'https://restcountries.com/v3.1/region/' + selectedCountry;
+    const endpoint = 'https://restcountries.com/v3.1/region/' + selectedRegion;
     console.log(endpoint.toString());
     fetch(endpoint.toString(), {
       method: 'GET', // or 'PUT'
@@ -98,7 +94,7 @@ export default function App() {
 
     const person = people[val];
     if (person) {
-      setSelectedCountry(person.country);
+      setSelectedRegion(person.country);
     }
   };
 
@@ -107,8 +103,8 @@ export default function App() {
       <h1 className="text-2xl">Countries of the World</h1>
       <input
         type="text"
-        value={selectedCountry}
-        onChange={(ev) => setSelectedCountry(ev.target.value)}
+        value={selectedRegion}
+        onChange={(ev) => setSelectedRegion(ev.target.value)}
       />
       <select value={option} onChange={onChange}>
         <option>By Region</option>
@@ -126,24 +122,28 @@ export default function App() {
       </button>
       {!isCountrySearch && (
         <div className="left-10 right-0 mt-2 w-150 rounded-md shadow-lg">
-          {countries.map((country, i) => (
+          {countries.sort(function (a, b){
+            if (a.name.official < b.name.official) {return -1;}
+            else if (a.name.official > b.name.official) {return 1;}
+            else{return 0}}).map((country, i) => (
             <li key={i} className="py-4 flex">
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-900">
-                  {country.capital}, {country.name.official}, {country.region}
+                   {country.name.official}, {country.capital}, {country.region}
                 </p>
               </div>
             </li>
           ))}
         </div>
-      ) }
+      )}
       {isCountrySearch && (
-        <div className="left-10 right-0 mt-2 w-150 rounded-md shadow-lg"><h1>Filtered by region</h1>
+        <div className="left-10 right-0 mt-2 w-150 rounded-md shadow-lg">
+          <h1>Filtered by region</h1>
           {countriesByCountry.map((country, i) => (
             <li key={i} className="py-4 flex">
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-900">
-                  <img src={country.flags.png} alt="flag"/> 
+                  <img src={country.flags.png} alt="flag" />
                   {country.name.official}, {country.region}
                 </p>
               </div>
