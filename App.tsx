@@ -37,14 +37,14 @@ export default function App() {
     },
   ];
 
-  const [isOpen, setOpen] = React.useState<boolean>(false);
+  // const [isOpen, setOpen] = React.useState<boolean>(false);
   const [isCountrySearch, setCountrySearch] = React.useState<boolean>(false);
   const [isLoading, setLoading] = React.useState<boolean>(false);
   const [countries, setCountries] = React.useState([]);
   const [selectedRegion, setSelectedRegion] = React.useState<string>('');
   const [countriesByCountry, setCountriesByCountry] = React.useState([]);
   const [option, setOption] = React.useState(undefined);
-  
+
   React.useEffect(() => {
     checkIfLoading();
     fetch('https://restcountries.com/v3.1/all', {
