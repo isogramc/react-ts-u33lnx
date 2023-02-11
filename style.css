@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Inter var';
+  src: url('https://rsms.me/inter/inter.css');
+}
+
+h1,
+p {
+  font-family: 'Inter var';
+}
