@@ -66,7 +66,7 @@ export default function App() {
               <li key={i} className="py-4 flex">
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-900">
-                    {country.capital}
+                     {country.capital}, {country.name.official}, {country.region}
                   </p>
                 </div>
               </li>
