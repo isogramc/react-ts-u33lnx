@@ -125,7 +125,7 @@ export default function App() {
           {countries.sort(function (a, b){
             if (a.name.official < b.name.official) {return -1;}
             else if (a.name.official > b.name.official) {return 1;}
-            else{return 0}}).map((country, i) => (
+            else{return 0}}).reverse().map((country, i) => (
             <li key={i} className="py-4 flex">
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-900">
